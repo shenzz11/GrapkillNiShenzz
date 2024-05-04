@@ -1,0 +1,130 @@
+local gui = Instance.new("ScreenGui")
+gui.ResetOnSpawn = false
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+gui.Name = "Shenzzz" -- Replace "YourGUIName" with your desired GUI name
+gui.DisplayOrder = 999
+gui.Parent = game:GetService("CoreGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 200, 0, 190)
+frame.Position = UDim2.new(1, -220, 0, 10)
+frame.BackgroundTransparency = 0.5
+frame.BackgroundColor3 = Color3.new(0, 0, 0)    
+frame.Active = true
+frame.Draggable = true
+frame.Parent = gui
+
+local yOffset = 10
+local buttonHeight = 30
+local buttonSpacing = 5
+
+local function createToggleButton(text, toggleFunction, customCode)
+    local button = Instance.new("TextButton")
+    button.Text = text .. ": OFF"
+    button.Size = UDim2.new(0, 180, 0, buttonHeight)
+    button.Position = UDim2.new(0, 10, 0, yOffset)
+    button.Parent = frame
+
+    yOffset = yOffset + buttonHeight + buttonSpacing
+
+    local isEnabled = false
+
+    local function toggleButton()
+        isEnabled = not isEnabled
+        button.Text = text .. ": " .. (isEnabled and "ON" or "OFF")
+        toggleFunction(isEnabled)
+
+        if isEnabled and customCode then
+            customCode()
+        end
+    end
+
+    button.MouseButton1Click:Connect(toggleButton)
+    return button
+end
+
+local assistiveTouch = Instance.new("TextButton")
+assistiveTouch.Text = "G"
+assistiveTouch.TextSize = 24
+assistiveTouch.Size = UDim2.new(0, 30, 0, 30)
+assistiveTouch.Position = UDim2.new(1, -40, 0, 10)
+assistiveTouch.BackgroundColor3 = Color3.new(0.8, 0.8, 0.8)
+assistiveTouch.Parent = gui
+
+local collapsed = true
+
+assistiveTouch.MouseButton1Click:Connect(function()
+    collapsed = not collapsed
+    frame.Visible = not collapsed
+end)
+
+local function toggleDamageSize(isEnabled)
+    if isEnabled then
+        game.Workspace.Pit.Damage.Size = Vector3.new(42, 2000, 2000)
+    else
+        game.Workspace.Pit.Damage.Size = Vector3.new(0, 0, 0)
+    end
+end
+
+createToggleButton("DED", toggleDamageSize)
+
+local function toggleTouch(isEnabled)
+    for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+        if v:IsA("BasePart") then
+            v.CanCollide = not isEnabled
+            v.CanTouch = not isEnabled
+        end
+    end
+end
+
+createToggleButton("TOUCH", toggleTouch)
+
+local function removeRagdoll(isEnabled)
+    if isEnabled then
+        local LocalPlayer = game.Players.LocalPlayer
+        if LocalPlayer.Character:FindFirstChild("ragdollValue") then
+            LocalPlayer.Character.ragdollValue:Destroy()
+        end
+    end
+end
+
+createToggleButton("NoRagdoll", removeRagdoll)
+
+local function boostTouchDetectorSize(isEnabled)
+    local touchDetector = game:GetService("Workspace").Map.Cool.Boosts.Jump.touchDetector
+    touchDetector.Size = isEnabled and Vector3.new(4000, 4000, 4000) or Vector3.new(1, 1, 1)
+end
+
+createToggleButton("BOOSTTOUCH", boostTouchDetectorSize)
+
+local function toggleSpeedScript(isEnabled)
+    local touchDetector = game:GetService("Workspace").Map.Cool.Boosts.Speed.touchDetector
+    touchDetector.Size = isEnabled and Vector3.new(2000, 2000, 2000) or Vector3.new(1, 1, 1)
+end
+
+createToggleButton("GiveSpeed", toggleSpeedScript)
+
+local button6 = Instance.new("TextButton")
+button6.Text = "GrappleLength: OFF"
+button6.Size = UDim2.new(0, 180, 0, buttonHeight)
+button6.Position = UDim2.new(0, 10, 0, yOffset)
+button6.Parent = frame
+
+local executingGrapple = false
+
+button6.MouseButton1Click:Connect(function()
+    executingGrapple = not executingGrapple
+    button6.Text = "GrappleLength: " .. (executingGrapple and "ON" or "OFF")
+end)
+
+spawn(function()
+    while true do
+        wait(0.05)
+        if executingGrapple then
+            local args = {
+                [1] = -1
+            }
+            game:GetService("ReplicatedStorage").Events.Remote.Client.changeRopeLength:FireServer(unpack(args))
+        end
+    end
+end)
