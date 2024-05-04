@@ -1,15 +1,15 @@
 local gui = Instance.new("ScreenGui")
 gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-gui.Name = "Shenzzz" -- Replace "YourGUIName" with your desired GUI name
+gui.Name = "Shenzzzz" -- Replace "YourGUIName" with your desired GUI name
 gui.DisplayOrder = 999
 gui.Parent = game:GetService("CoreGui")
 
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 200, 0, 190)
+frame.Size = UDim2.new(0, 200, 0, 0) -- Set initial height to 0
 frame.Position = UDim2.new(1, -220, 0, 10)
 frame.BackgroundTransparency = 0.5
-frame.BackgroundColor3 = Color3.new(0, 0, 0)    
+frame.BackgroundColor3 = Color3.new(0, 0, 0)
 frame.Active = true
 frame.Draggable = true
 frame.Parent = gui
@@ -128,3 +128,6 @@ spawn(function()
         end
     end
 end)
+
+-- Adjust the frame's size to fit all buttons
+frame.Size = UDim2.new(0, 200, 0, yOffset)
