@@ -6,17 +6,21 @@ gui.DisplayOrder = 999
 gui.Parent = game:GetService("CoreGui")
 
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 200, 0, 260) -- Increase the height to accommodate the extended background
-frame.Position = UDim2.new(1, -220, 0, 10)
+
+local yOffset = 10
+local buttonHeight = 30
+local buttonSpacing = 5
+
+local totalHeight = 2 * yOffset + buttonHeight + buttonSpacing
+local totalWidth = 230 -- You can adjust this value based on your preference
+
+frame.Size = UDim2.new(0, totalWidth, 0, totalHeight) -- Adjusted size for consistent background
+frame.Position = UDim2.new(1, -totalWidth, 0, 10) -- Adjusted position for visibility
 frame.BackgroundTransparency = 0.5
 frame.BackgroundColor3 = Color3.new(0, 0, 0)    
 frame.Active = true
 frame.Draggable = true
 frame.Parent = gui
-
-local yOffset = 10
-local buttonHeight = 30
-local buttonSpacing = 5
 
 local function createToggleButton(text, toggleFunction, customCode)
     local button = Instance.new("TextButton")
