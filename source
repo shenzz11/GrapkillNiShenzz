@@ -1,9 +1,3 @@
--- Check if the welcome message has been displayed before
-if not Welcome then 
-    Message("Script by Shenzzz", "TANGINAMO!", 5) 
-end
-getgenv().Welcome = true
-
 local gui = Instance.new("ScreenGui")
 gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
