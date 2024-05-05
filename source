@@ -1,7 +1,13 @@
+-- Check if the welcome message has been displayed before
+if not Welcome then 
+    Message("Script by Shenzzz", "TANGINAMO!", 5) 
+end
+getgenv().Welcome = true
+
 local gui = Instance.new("ScreenGui")
 gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-gui.Name = "Shenzzz" -- Replace "YourGUIName" with your desired GUI name
+gui.Name = "Shenzzz"
 gui.DisplayOrder = 999
 gui.Parent = game:GetService("CoreGui")
 
@@ -12,10 +18,10 @@ local buttonHeight = 30
 local buttonSpacing = 5
 
 local totalHeight = 2 * yOffset + buttonHeight + buttonSpacing
-local totalWidth = 230 -- You can adjust this value based on your preference
+local totalWidth = 230
 
-frame.Size = UDim2.new(0, totalWidth, 0, totalHeight) -- Adjusted size for consistent background
-frame.Position = UDim2.new(1, -totalWidth, 0, 10) -- Adjusted position for visibility
+frame.Size = UDim2.new(0, totalWidth, 0, totalHeight)
+frame.Position = UDim2.new(1, -totalWidth, 0, 10)
 frame.BackgroundTransparency = 0.5
 frame.BackgroundColor3 = Color3.new(0, 0, 0)    
 frame.Active = true
@@ -131,4 +137,4 @@ spawn(function()
             game:GetService("ReplicatedStorage").Events.Remote.Client.changeRopeLength:FireServer(unpack(args))
         end
     end
-end)
+end) 
