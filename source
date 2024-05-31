@@ -130,7 +130,7 @@ end)
 
 spawn(function()
     while true do
-        wait(0.01) -- Faster interval for quicker adjustment
+        wait(0.001) -- Faster interval for quicker adjustment
         if executingGrapple then
             local args = {
                 [1] = -1
