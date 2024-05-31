@@ -1,3 +1,4 @@
+-- Create main GUI
 local gui = Instance.new("ScreenGui")
 gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -5,23 +6,22 @@ gui.Name = "Shenzzz"
 gui.DisplayOrder = 999
 gui.Parent = game:GetService("CoreGui")
 
+-- Create main frame
 local frame = Instance.new("Frame")
-
 local yOffset = 10
 local buttonHeight = 30
 local buttonSpacing = 5
-
 local totalHeight = 2 * yOffset + buttonHeight + buttonSpacing
 local totalWidth = 230
-
 frame.Size = UDim2.new(0, totalWidth, 0, totalHeight)
 frame.Position = UDim2.new(1, -totalWidth, 0, 10)
 frame.BackgroundTransparency = 0.5
-frame.BackgroundColor3 = Color3.new(0, 0, 0)    
+frame.BackgroundColor3 = Color3.new(0, 0, 0)
 frame.Active = true
 frame.Draggable = true
 frame.Parent = gui
 
+-- Function to create toggle buttons
 local function createToggleButton(text, toggleFunction, customCode)
     local button = Instance.new("TextButton")
     button.Text = text .. ": OFF"
@@ -47,6 +47,7 @@ local function createToggleButton(text, toggleFunction, customCode)
     return button
 end
 
+-- Create Assistive Touch Button
 local assistiveTouch = Instance.new("TextButton")
 assistiveTouch.Text = "G"
 assistiveTouch.TextSize = 24
@@ -62,6 +63,7 @@ assistiveTouch.MouseButton1Click:Connect(function()
     frame.Visible = not collapsed
 end)
 
+-- Toggle Damage Size Function
 local function toggleDamageSize(isEnabled)
     if isEnabled then
         game.Workspace.Pit.Damage.Size = Vector3.new(42, 2000, 2000)
@@ -72,6 +74,7 @@ end
 
 createToggleButton("DED", toggleDamageSize)
 
+-- Toggle Touch Function
 local function toggleTouch(isEnabled)
     for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
         if v:IsA("BasePart") then
@@ -83,6 +86,7 @@ end
 
 createToggleButton("TOUCH", toggleTouch)
 
+-- Remove Ragdoll Function
 local function removeRagdoll(isEnabled)
     if isEnabled then
         local LocalPlayer = game.Players.LocalPlayer
@@ -94,6 +98,7 @@ end
 
 createToggleButton("NoRagdoll", removeRagdoll)
 
+-- Boost Touch Detector Size Function
 local function boostTouchDetectorSize(isEnabled)
     local touchDetector = game:GetService("Workspace").Map.Cool.Boosts.Jump.touchDetector
     touchDetector.Size = isEnabled and Vector3.new(4000, 4000, 4000) or Vector3.new(1, 1, 1)
@@ -101,6 +106,7 @@ end
 
 createToggleButton("BOOSTTOUCH", boostTouchDetectorSize)
 
+-- Toggle Speed Script Function
 local function toggleSpeedScript(isEnabled)
     local touchDetector = game:GetService("Workspace").Map.Cool.Boosts.Speed.touchDetector
     touchDetector.Size = isEnabled and Vector3.new(2000, 2000, 2000) or Vector3.new(1, 1, 1)
@@ -108,6 +114,7 @@ end
 
 createToggleButton("GiveSpeed", toggleSpeedScript)
 
+-- Grapple Length Button
 local button6 = Instance.new("TextButton")
 button6.Text = "GrappleLength: OFF"
 button6.Size = UDim2.new(0, 180, 0, buttonHeight)
@@ -123,7 +130,7 @@ end)
 
 spawn(function()
     while true do
-        wait(0.05)
+        wait(0.01) -- Faster interval for quicker adjustment
         if executingGrapple then
             local args = {
                 [1] = -1
@@ -131,4 +138,4 @@ spawn(function()
             game:GetService("ReplicatedStorage").Events.Remote.Client.changeRopeLength:FireServer(unpack(args))
         end
     end
-end) 
+end)
