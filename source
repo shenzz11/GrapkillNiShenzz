@@ -126,41 +126,11 @@ local executingGrapple = false
 button6.MouseButton1Click:Connect(function()
     executingGrapple = not executingGrapple
     button6.Text = "GrappleLength: " .. (executingGrapple and "ON" or "OFF")
-end)
-
-spawn(function()
-    while true do
-        wait(0.0001) -- Reduce the interval to 0.005 seconds for quicker adjustment
-        if executingGrapple then
-            local args = {
-                [1] = -1  -- Adjust the value to 0.1 for faster adjustments
-            }
-            game:GetService("ReplicatedStorage").Events.Remote.Client.changeRopeLength:FireServer(unpack(args))
-        end
-    end
-end)
-
--- Function to check if player is grounded
-local function isGrounded()
-    local rootPart = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-    if rootPart then
-        local ray = Ray.new(rootPart.Position, Vector3.new(0, -1, 0) * 10)
-        local hit, position = workspace:FindPartOnRay(ray, game.Players.LocalPlayer.Character, false, true)
-        return hit ~= nil
-    end
-    return false
-end
-
--- Continuously check if player is grounded and execute DED and GrappleLength functions
-game:GetService("RunService").Stepped:Connect(function()
-    local grounded = isGrounded()
-    if not grounded then
-        toggleDamageSize(true) -- Execute DED function even when not grounded
-        if executingGrapple then
-            local args = {
-                [1] = -1  -- Adjust the value to 0.1 for faster adjustments
-            }
-            game:GetService("ReplicatedStorage").Events.Remote.Client.changeRopeLength:FireServer(unpack(args))
-        end
+    while executingGrapple do
+        wait(0.1) -- Wait for 0.1 seconds
+        local args = {
+            [1] = -1  -- Adjust the value to 0.1 for faster adjustments
+        }
+        game:GetService("ReplicatedStorage").Events.Remote.Client.changeRopeLength:FireServer(unpack(args))
     end
 end)
