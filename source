@@ -112,7 +112,7 @@ spawn(function()
         if executingGrapple then
             local args = {
                 [1] = 0.1  -- Adjust the value to 0.1 for faster adjustments
-                [1] = -1  -- Adjust the value to 0.1 for faster adjustments
+                [1] = -10  -- Adjust the value to 0.1 for faster adjustments
             }
             game:GetService("ReplicatedStorage").Events.Remote.Client.changeRopeLength:FireServer(unpack(args))
         end
